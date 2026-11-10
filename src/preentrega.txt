@@ -1,0 +1,33 @@
+Entregable
+
+Pre-entrega Módulo 1: Briefing de Pre-entrega: Estructura Profesional de ShipNow
+Objetivo
+Refactorizar la API ShipNow para pasar de un modelo monolítico a una arquitectura profesional por capas (Controller-Service-Repository), asegurando que la configuración de entorno sea robusta.
+
+Tareas Paso a Paso
+Inicialización y Configuración de Entorno:
+Configura dotenv en un módulo centralizado dentro de src/config/env.config.js.
+Exporta un objeto de configuración que valide la presencia de: PORT, MONGODB_URI y NODE_ENV.
+Crea un archivo .env.example con las claves necesarias pero sin valores reales.
+Centralización de Constantes:
+Crea src/constants/index.js.
+Define objetos congelados (Object.freeze) para los estados del producto (ej. AVAILABLE, OUT_OF_STOCK) y roles de usuario.
+Refactorización a 3 Capas (Entidades: Products y Users):
+Repository: Mueve todas las llamadas a Mongoose/MongoDB aquí. Ejemplo: ProductRepository.getAll().
+Service: Implementa la lógica de negocio. Debe llamar al Repository. Aquí es donde podrías, por ejemplo, filtrar productos que no tengan stock antes de enviarlos.
+Controller: Gestiona el req y res. Llama al Service y retorna el status code apropiado.
+Router: Actualiza las rutas para que solo invoquen el método correspondiente del Controller.
+Limpieza de Código:
+Asegúrate de que no existan llamadas directas a process.env fuera del archivo de configuración.
+Verifica que los modelos solo definan el esquema y no contengan lógica de controladores.
+Formato de Entrega
+Sube tu código a un repositorio de GitHub. El README debe incluir:
+
+Instrucciones para correr el proyecto localmente.
+Una breve explicación de por qué elegiste separar cierta lógica entre Service y Repository.
+El link al repositorio debe ser enviado a través de la plataforma.
+Criterios de Evaluación
+Modularidad: ¿Están las carpetas correctamente separadas?
+Abstracción: ¿El Controller conoce detalles de la base de datos? (No debería).
+Robustez: ¿La app falla con un error claro si borro la URI de la base de datos del .env?
+Legibilidad: ¿Se eliminaron los strings mágicos por el uso de constantes?
